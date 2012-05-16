@@ -33,3 +33,11 @@ end
     group node["bluepill"]["group"]
   end
 end
+
+
+file node["bluepill"]["logfile"] do
+  owner "root"
+  group node["bluepill"]["group"]
+  mode "0755"
+  action :create_if_missing
+end
