@@ -17,9 +17,13 @@
 # limitations under the License.
 #
 
-gem_package "i18n"
+gem_package "i18n" do
+  action :install
+end
+
 gem_package "bluepill" do
   version node["bluepill"]["version"] if node["bluepill"]["version"]
+  action :install
 end
 
 [
