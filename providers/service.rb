@@ -40,7 +40,7 @@ action :enable do
       group node["bluepill"]["group"]
       mode "0755"
       variables(
-        :service_name => "#{new_resource.service_name}",
+        :service_name => new_resource.service_name,
         :config_file => config_file
       )
     end
