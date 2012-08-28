@@ -55,14 +55,14 @@ end
 
 action :load do
   unless @current_resource.running
-    shell_out!(new_resource.load_command)
+    shell_out!(load_command)
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :start do
   unless @current_resource.running
-    shell_out!(new_resource.start_command)
+    shell_out!(start_command)
     new_resource.updated_by_last_action(true)
   end
 end
@@ -81,7 +81,7 @@ end
 
 action :stop do
   if @current_resource.running
-    shell_out!(new_resource.stop_command)
+    shell_out!(stop_command)
     new_resource.updated_by_last_action(true)
   end
 end
@@ -89,7 +89,7 @@ end
 action :restart do
   if @current_resource.running
     Chef::Log.debug "Restarting #{new_resource.service_name}"
-    shell_out!(new_resource.restart_command)
+    shell_out!(restart_command)
     new_resource.updated_by_last_action(true)
     Chef::Log.debug "Restarted #{new_resource.service_name}"
   end
@@ -101,9 +101,6 @@ def load_current_resource
 
   Chef::Log.debug("Checking status of service #{new_resource.service_name}")
 
-  # We don't have access to node in the Resource LWRP DSL; so let's
-  # use the provider.
-  add_commands_to_provider!
   determine_current_status!
 
   @current_resource
@@ -111,24 +108,34 @@ end
 
 protected
 
-def add_commands_to_provider!
-  { :status_command => "#{node['bluepill']['bin']} #{new_resource.service_name} status",
-    :load_command => "#{node['bluepill']['bin']} load #{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill",
-    :start_command => "#{node['bluepill']['bin']} #{new_resource.service_name} start",
-    :stop_command => "#{node['bluepill']['bin']} #{new_resource.service_name} stop",
-    :restart_command => "#{node['bluepill']['bin']} #{new_resource.service_name} restart" }.each do |action_command,command|
-    define_method(action_command) { command }
-  end
+def status_command
+  "#{node['bluepill']['bin']} #{new_resource.service_name} status"
+end
+
+def load_command
+  "#{node['bluepill']['bin']} load #{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill"
+end
+
+def start_command
+  "#{node['bluepill']['bin']} #{new_resource.service_name} start"
+end
+
+def stop_command
+  "#{node['bluepill']['bin']} #{new_resource.service_name} stop"
+end
+
+def restart_command
+  "#{node['bluepill']['bin']} #{new_resource.service_name} restart"
 end
 
 def determine_current_status!
-  @current_resource.running service_running?
-  @current_resource.enabled service_enabled?
+  service_running?
+  service_enabled?
 end
 
 def service_running?
   begin
-    if shell_out(new_resource.status_command).exitstatus == 0
+    if shell_out(status_command).exitstatus == 0
       @current_resource.running true
       Chef::Log.debug("#{new_resource} is running")
     end
@@ -139,6 +146,10 @@ def service_running?
 end
 
 def service_enabled?
-  !!(::File.exists?("#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill") &&
-     ::File.symlink?("#{node['bluepill']['init_dir']}/#{new_resource.service_name}"))
+  if ::File.exists?("#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill") &&
+      ::File.symlink?("#{node['bluepill']['init_dir']}/#{new_resource.service_name}")
+    @current_resource.enabled true
+  else
+    @current_resource.enabled false
+  end
 end
