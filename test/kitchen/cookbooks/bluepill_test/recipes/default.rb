@@ -1,8 +1,8 @@
 include_recipe "bluepill"
 
-template "/etc/bluepill/test_app.pill"
+template ::File.join(node['bluepill']['conf_dir'],
+                     node['bluepill_test']['service_name'] + ".pill")
 
-bluepill_service "test_app" do
-  action [:enable, :load, :start, :restart, :stop, :disable]
+bluepill_service node['bluepill_test']['service_name'] do
+  action [:enable, :load, :start]
 end
-
