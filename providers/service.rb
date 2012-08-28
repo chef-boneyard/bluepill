@@ -101,8 +101,9 @@ def load_current_resource
 
   Chef::Log.debug("Checking status of service #{new_resource.service_name}")
 
-  # We don't have access to node in the Resource LWRP DSL
-  add_commands_to_resource!
+  # We don't have access to node in the Resource LWRP DSL; so let's
+  # use the provider.
+  add_commands_to_provider!
   determine_current_status!
 
   @current_resource
@@ -110,13 +111,13 @@ end
 
 protected
 
-def add_commands_to_resource!
+def add_commands_to_provider!
   { :status_command => "#{node['bluepill']['bin']} #{new_resource.service_name} status",
     :load_command => "#{node['bluepill']['bin']} load #{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill",
     :start_command => "#{node['bluepill']['bin']} #{new_resource.service_name} start",
     :stop_command => "#{node['bluepill']['bin']} #{new_resource.service_name} stop",
     :restart_command => "#{node['bluepill']['bin']} #{new_resource.service_name} restart" }.each do |action_command,command|
-    new_resource.send(:define_method, action_command) { command }
+    define_method(action_command) { command }
   end
 end
 
