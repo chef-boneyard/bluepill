@@ -24,53 +24,51 @@ require 'chef/mixin/language'
 include Chef::Mixin::ShellOut
 
 action :enable do
-  config_file = "#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill"
-
-  unless @bp.enabled
+  config_file = ::File.join(node['bluepill']['conf_dir'],
+                            "#{new_resource.service_name}.pill")
+  unless @current_resource.enabled
     link "#{node['bluepill']['init_dir']}/#{new_resource.service_name}" do
       to node['bluepill']['bin']
       only_if { ::File.exists?(config_file) }
     end
-  end
+    case node['platform']
+    when "centos", "redhat", "freebsd", "amazon", "scientific", "fedora"
+      template "#{node['bluepill']['init_dir']}/bluepill-#{new_resource.service_name}" do
+        source "bluepill_init.erb"
+        cookbook "bluepill"
+        owner "root"
+        group node['bluepill']['group']
+        mode "0755"
+        variables(
+                  :service_name => new_resource.service_name,
+                  :config_file => config_file
+                  )
+      end
 
-  case node['platform']
-  when "centos", "redhat", "freebsd", "amazon", "scientific", "fedora"
-    template "#{node["bluepill"]["init_dir"]}/bluepill-#{new_resource.service_name}" do
-      source "bluepill_init.erb"
-      cookbook "bluepill"
-      owner "root"
-      group node["bluepill"]["group"]
-      mode "0755"
-      variables(
-                :service_name => new_resource.service_name,
-                :config_file => config_file
-                )
+      service "bluepill-#{new_resource.service_name}" do
+        action [ :enable ]
+      end
     end
-
-    service "bluepill-#{new_resource.service_name}" do
-      action [ :enable ]
-    end
+    new_resource.updated_by_last_action(true)
   end
-
-  new_resource.updated_by_last_action(true)
 end
 
 action :load do
-  unless @bp.running
-    shell_out! "#{node['bluepill']['bin']} load #{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill"
+  unless @current_resource.running
+    shell_out!(new_resource.load_command)
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :start do
-  unless @bp.running
-    shell_out! "#{node['bluepill']['bin']} #{new_resource.service_name} start"
+  unless @current_resource.running
+    shell_out!(new_resource.start_command)
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :disable do
-  if @bp.enabled
+  if @current_resource.enabled
     file "#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill" do
       action :delete
     end
@@ -82,43 +80,64 @@ action :disable do
 end
 
 action :stop do
-  if @bp.running
-    shell_out! "#{node['bluepill']['bin']} #{new_resource.service_name} stop"
+  if @current_resource.running
+    shell_out!(new_resource.stop_command)
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :restart do
-  if @bp.running
+  if @current_resource.running
     Chef::Log.debug "Restarting #{new_resource.service_name}"
-    shell_out! "#{node['bluepill']['bin']} #{new_resource.service_name} restart"
+    shell_out!(new_resource.restart_command)
     new_resource.updated_by_last_action(true)
     Chef::Log.debug "Restarted #{new_resource.service_name}"
-  else
-    Chef::Log.debug "Unable to restart service #{new_resource.service_name}, " +
-      "not running: #{@bp.running.inspect}" +
-      "resource: #{@bp.inspect}"
   end
 end
 
 def load_current_resource
-  @bp = Chef::Resource::BluepillService.new(new_resource.name)
-  @bp.service_name(new_resource.service_name)
+  @current_resource = Chef::Resource::BluepillService.new(new_resource.name)
+  @current_resource.service_name(new_resource.service_name)
 
   Chef::Log.debug("Checking status of service #{new_resource.service_name}")
 
+  # We don't have access to node in the Resource LWRP DSL
+  add_commands_to_resource!
+  determine_current_status!
+
+  @current_resource
+end
+
+protected
+
+def add_commands_to_resource!
+  { :status_command => "#{node['bluepill']['bin']} #{new_resource.service_name} status",
+    :load_command => "#{node['bluepill']['bin']} load #{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill",
+    :start_command => "#{node['bluepill']['bin']} #{new_resource.service_name} start",
+    :stop_command => "#{node['bluepill']['bin']} #{new_resource.service_name} stop",
+    :restart_command => "#{node['bluepill']['bin']} #{new_resource.service_name} restart" }.each do |action_command,command|
+    new_resource.send(:define_method, action_command) { command }
+  end
+end
+
+def determine_current_status!
+  @current_resource.running service_running?
+  @current_resource.enabled service_enabled?
+end
+
+def service_running?
   begin
-    if shell_out!("#{node['bluepill']['bin']} #{new_resource.service_name} status").exitstatus == 0
-      @bp.running(true)
+    if shell_out(new_resource.status_command).exitstatus == 0
+      @current_resource.running true
+      Chef::Log.debug("#{new_resource} is running")
     end
-  rescue Mixlib::ShellOut::ShellCommandFailed
-    @bp.running(false)
+  rescue Mixlib::ShellOut::ShellCommandFailed, SystemCallError
+    @current_resource.running false
     nil
   end
+end
 
-  if ::File.exists?("#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill") && ::File.symlink?("#{node['bluepill']['init_dir']}/#{new_resource.service_name}")
-    @bp.enabled(true)
-  else
-    @bp.enabled(false)
-  end
+def service_enabled?
+  !!(::File.exists?("#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill") &&
+     ::File.symlink?("#{node['bluepill']['init_dir']}/#{new_resource.service_name}"))
 end

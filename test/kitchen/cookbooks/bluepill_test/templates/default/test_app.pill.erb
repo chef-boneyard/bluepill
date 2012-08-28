@@ -1,0 +1,7 @@
+# -*- mode: ruby -*-
+Bluepill.application("test_app") do |app|
+  app.process("netcat") do |process|
+    process.pid_file = "/var/run/netcat.pid"
+    process.start_command = "nc -l 1234"
+  end
+end
