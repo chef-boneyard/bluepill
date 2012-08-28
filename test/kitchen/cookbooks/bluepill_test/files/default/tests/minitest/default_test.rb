@@ -3,11 +3,6 @@ require_relative "./helpers"
 describe_recipe 'bluepill_test::default' do
   include BluepillTestHelpers
 
-  describe "installs nc for usage in the test_app service" do
-    let(:netcat) { package("nc") }
-    it { netcat.must_be_installed }
-  end
-
   describe "create a bluepill configuration file" do
     let(:config) { file(::File.join(node['bluepill']['conf_dir'],
                                     node['bluepill_test']['service_name'] +
