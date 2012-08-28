@@ -1,12 +1,11 @@
-
 require_relative "./helpers"
 
 describe_recipe 'bluepill_test::default' do
   include BluepillTestHelpers
 
   describe "installs nc for usage in the test_app service" do
-    let(:package) { package("nc") }
-    it { package.must_be_installed }
+    let(:netcat) { package("nc") }
+    it { netcat.must_be_installed }
   end
 
   describe "create a bluepill configuration file" do
@@ -32,8 +31,11 @@ describe_recipe 'bluepill_test::default' do
     it "should receive a TCP connection from netcat" do
       TCPServer.open("localhost", port) do |server|
         client = server.accept
+        assert_instance_of TCPSocket, client
+
         client_secret = client.gets.strip!
         assert_equal secret, client_secret
+
         client.close
       end
     end
