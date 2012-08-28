@@ -1,5 +1,7 @@
 include_recipe "bluepill"
 
+package "nc"
+
 template ::File.join(node['bluepill']['conf_dir'],
                      node['bluepill_test']['service_name'] + ".pill")
 
