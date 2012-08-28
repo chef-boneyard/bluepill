@@ -1,13 +1,18 @@
+
 require_relative "./helpers"
 
 describe_recipe 'bluepill_test::default' do
   include BluepillTestHelpers
-  
+
   describe "create a bluepill configuration file" do
     let(:config) { file(::File.join(node['bluepill']['conf_dir'],
                                     node['bluepill_test']['service_name'] +
-                                    ".pill" )) }
+                                    ".pill")) }
     it { config.must_exist }
+
+    it "must be valid ruby" do
+      assert(shell_out("ruby -c #{config.path}").exitstatus == 0)
+    end
   end
 
   describe "runs the application as a service" do
