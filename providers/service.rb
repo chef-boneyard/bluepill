@@ -3,6 +3,7 @@
 # Provider:: service
 #
 # Copyright 2010, Opscode, Inc.
+# Copyright 2012, Heavy Water Operations, LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,9 +18,10 @@
 # limitations under the License.
 #
 
-require 'chef/mixin/command'
+require 'chef/mixin/shell_out'
 require 'chef/mixin/language'
-include Chef::Mixin::Command
+
+include Chef::Mixin::ShellOut
 
 action :enable do
   config_file = "#{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill"
@@ -40,9 +42,9 @@ action :enable do
       group node["bluepill"]["group"]
       mode "0755"
       variables(
-        :service_name => new_resource.service_name,
-        :config_file => config_file
-      )
+                :service_name => new_resource.service_name,
+                :config_file => config_file
+                )
     end
 
     service "bluepill-#{new_resource.service_name}" do
@@ -55,14 +57,14 @@ end
 
 action :load do
   unless @bp.running
-    execute "#{node['bluepill']['bin']} load #{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill"
+    shell_out! "#{node['bluepill']['bin']} load #{node['bluepill']['conf_dir']}/#{new_resource.service_name}.pill"
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :start do
   unless @bp.running
-    execute "#{node['bluepill']['bin']} #{new_resource.service_name} start"
+    shell_out! "#{node['bluepill']['bin']} #{new_resource.service_name} start"
     new_resource.updated_by_last_action(true)
   end
 end
@@ -81,15 +83,21 @@ end
 
 action :stop do
   if @bp.running
-    execute "#{node['bluepill']['bin']} #{new_resource.service_name} stop"
+    shell_out! "#{node['bluepill']['bin']} #{new_resource.service_name} stop"
     new_resource.updated_by_last_action(true)
   end
 end
 
 action :restart do
   if @bp.running
-    execute "#{node['bluepill']['bin']} #{new_resource.service_name} restart"
+    Chef::Log.debug "Restarting #{new_resource.service_name}"
+    shell_out! "#{node['bluepill']['bin']} #{new_resource.service_name} restart"
     new_resource.updated_by_last_action(true)
+    Chef::Log.debug "Restarted #{new_resource.service_name}"
+  else
+    Chef::Log.debug "Unable to restart service #{new_resource.service_name}, " +
+      "not running: #{@bp.running.inspect}" +
+      "resource: #{@bp.inspect}"
   end
 end
 
@@ -100,10 +108,10 @@ def load_current_resource
   Chef::Log.debug("Checking status of service #{new_resource.service_name}")
 
   begin
-    if run_command_with_systems_locale(:command => "#{node['bluepill']['bin']} #{new_resource.service_name} status") == 0
+    if shell_out!("#{node['bluepill']['bin']} #{new_resource.service_name} status").exitstatus == 0
       @bp.running(true)
     end
-  rescue Chef::Exceptions::Exec
+  rescue Mixlib::ShellOut::ShellCommandFailed
     @bp.running(false)
     nil
   end
