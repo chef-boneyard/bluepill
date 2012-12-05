@@ -20,6 +20,10 @@ describe_recipe 'bluepill_test::default' do
     it { service.must_be_running }
   end
 
+  it "the default log file must exist (COOK-1295)" do
+    file(node['bluepill']['logfile']).must_exist
+  end
+
   describe "spawn a netcat tcp client repeatedly" do
     let(:port) { node['bluepill_test']['tcp_server_listen_port'] }
     let(:secret) { node['bluepill_test']['secret'] }
