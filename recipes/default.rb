@@ -17,9 +17,13 @@
 # limitations under the License.
 #
 
-gem_package "i18n"
+gem_package "i18n" do
+  action :install
+end
+
 gem_package "bluepill" do
   version node["bluepill"]["version"] if node["bluepill"]["version"]
+  action :install
 end
 
 [
@@ -32,4 +36,12 @@ end
     owner "root"
     group node["bluepill"]["group"]
   end
+end
+
+
+file node["bluepill"]["logfile"] do
+  owner "root"
+  group node["bluepill"]["group"]
+  mode "0755"
+  action :create_if_missing
 end
