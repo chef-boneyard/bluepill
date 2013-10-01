@@ -3,6 +3,11 @@ bluepill Cookbook CHANGELOG
 This file is used to list changes made in each version of the bluepill cookbook.
 
 
+v2.3.0
+------
+### Improvement
+- **[COOK-3503](https://tickets.opscode.com/browse/COOK-3503)** - Add why-run support
+
 v2.2.2
 ------
 - [COOK-2507] - stringify language attributes
