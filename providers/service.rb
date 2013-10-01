@@ -49,7 +49,7 @@ action :enable do
                     :config_file => config_file
                     )
         end
-     
+
         service "bluepill-#{new_resource.service_name}" do
           action [ :enable ]
         end
