@@ -1,6 +1,6 @@
 name             "bluepill"
-maintainer       "Opscode, Inc."
-maintainer_email "cookbooks@opscode.com"
+maintainer       "Chef Software, Inc."
+maintainer_email "cookbooks@chef.io"
 license          "Apache 2.0"
 description      "Installs bluepill gem and configures to manage services, includes bluepill_service LWRP"
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))

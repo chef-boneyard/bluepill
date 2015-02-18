@@ -6,13 +6,13 @@ This file is used to list changes made in each version of the bluepill cookbook.
 v2.3.1
 ------
 ### New Feature
-- **[COOK-3705](https://tickets.opscode.com/browse/COOK-3705)** - Add init.d script with LSB style
+- **[COOK-3705](https://tickets.chef.io/browse/COOK-3705)** - Add init.d script with LSB style
 
 
 v2.3.0
 ------
 ### Improvement
-- **[COOK-3503](https://tickets.opscode.com/browse/COOK-3503)** - Add why-run support
+- **[COOK-3503](https://tickets.chef.io/browse/COOK-3503)** - Add why-run support
 
 v2.2.2
 ------

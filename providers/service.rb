@@ -2,7 +2,7 @@
 # Cookbook Name:: bluepill
 # Provider:: service
 #
-# Copyright 2010, Opscode, Inc.
+# Copyright 2010, Chef Software, Inc.
 # Copyright 2012, Heavy Water Operations, LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
