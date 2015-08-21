@@ -1,5 +1,9 @@
 bluepill Cookbook
 =================
+
+[![Build Status](https://travis-ci.org/opscode-cookbooks/bluepill.svg?branch=master)](https://travis-ci.org/opscode-cookbooks/bluepill)
+[![Cookbook Version](https://img.shields.io/cookbook/v/bluepill.svg)](https://supermarket.chef.io/cookbooks/bluepill)
+
 Installs bluepill RubyGem and configures it to manage services. Also includes a LWRP.
 
 
