@@ -1,10 +1,10 @@
-site 'https://supermarket.chef.io'
+source 'https://supermarket.chef.io'
 
 metadata
 
 group :integration do
-  cookbook "apt"
-  cookbook "yum"
+  cookbook 'apt'
+  cookbook 'yum'
   cookbook "minitest-handler"
   cookbook "bluepill_test", :path => "./test/cookbooks/bluepill_test"
 end
