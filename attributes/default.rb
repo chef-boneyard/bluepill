@@ -26,10 +26,20 @@ case platform
 when "arch"
   default["bluepill"]["init_dir"] = "/etc/rc.d"
   default["bluepill"]["conf_dir"] = "/etc/bluepill"
+  default["bluepill"]["defaults_dir"] = "/etc/default"
 when "freebsd"
   default["bluepill"]["init_dir"] = "/usr/local/etc/rc.d"
   default["bluepill"]["conf_dir"] = "/usr/local/etc/bluepill"
+  default["bluepill"]["defaults_dir"] = "/etc/defaults"
 else
   default["bluepill"]["init_dir"] = "/etc/init.d"
   default["bluepill"]["conf_dir"] = "/etc/bluepill"
+
+  case platform
+  when "fedora","rhel"
+    default["bluepill"]["defaults_dir"] = "/etc/sysconfig"
+  when "debian","ubuntu"
+    default["bluepill"]["defaults_dir"] = "/etc/default"
+  end
+
 end
