@@ -10,7 +10,7 @@ driver_config:
 platforms:
   - name: centos-5.11
   - name: centos-6.7
-  - name: fedora-22
+  - name: fedora-21
   - name: ubuntu-12.04
     run_list:
     - recipe[apt::default]
