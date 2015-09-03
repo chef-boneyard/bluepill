@@ -8,3 +8,6 @@ version          "2.3.2"
 recipe "bluepill::default", "Installs bluepill rubygem and sets up management directories"
 
 depends "rsyslog"
+
+source_url 'https://github.com/opscode-cookbooks/bluepill' if respond_to?(:source_url)
+issues_url 'https://github.com/opscode-cookbooks/bluepill/issues' if respond_to?(:issues_url)
