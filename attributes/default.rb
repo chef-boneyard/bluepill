@@ -34,12 +34,11 @@ when "freebsd"
 else
   default["bluepill"]["init_dir"] = "/etc/init.d"
   default["bluepill"]["conf_dir"] = "/etc/bluepill"
+end
 
-  case platform
-  when "fedora","rhel"
-    default["bluepill"]["defaults_dir"] = "/etc/sysconfig"
-  when "debian","ubuntu"
-    default["bluepill"]["defaults_dir"] = "/etc/default"
-  end
-
+case platform
+when "fedora","rhel"
+  default["bluepill"]["defaults_dir"] = "/etc/sysconfig"
+when "debian","ubuntu"
+  default["bluepill"]["defaults_dir"] = "/etc/default"
 end
