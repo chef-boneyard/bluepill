@@ -17,32 +17,32 @@
 # limitations under the License.
 #
 
-gem_package "i18n" do
+gem_package 'i18n' do
   action :install
 end
 
-gem_package "bluepill" do
-  version node["bluepill"]["version"] if node["bluepill"]["version"]
+gem_package 'bluepill' do
+  version node['bluepill']['version'] if node['bluepill']['version']
   action :install
 end
 
 [
-  node["bluepill"]["conf_dir"],
-  node["bluepill"]["pid_dir"],
-  node["bluepill"]["state_dir"]
+  node['bluepill']['conf_dir'],
+  node['bluepill']['pid_dir'],
+  node['bluepill']['state_dir']
 ].each do |dir|
   directory dir do
     recursive true
-    owner "root"
-    group node["bluepill"]["group"]
+    owner 'root'
+    group node['bluepill']['group']
   end
 end
 
-file node["bluepill"]["logfile"] do
-  owner "root"
-  group node["bluepill"]["group"]
-  mode "0755"
+file node['bluepill']['logfile'] do
+  owner 'root'
+  group node['bluepill']['group']
+  mode '0755'
   action :create_if_missing
 end
 
-include_recipe "bluepill::rsyslog" if node['bluepill']['use_rsyslog']
+include_recipe 'bluepill::rsyslog' if node['bluepill']['use_rsyslog']
