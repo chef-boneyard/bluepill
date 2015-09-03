@@ -1,5 +1,6 @@
 require 'chef/mixin/shell_out'
 
+# helpers for testing bluepill
 module BluepillTestHelpers
   include Chef::Mixin::ShellOut
 
