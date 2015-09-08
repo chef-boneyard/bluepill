@@ -9,5 +9,5 @@ recipe 'bluepill::default', 'Installs bluepill rubygem and sets up management di
 
 depends 'rsyslog'
 
-source_url 'https://github.com/opscode-cookbooks/bluepill' if respond_to?(:source_url)
-issues_url 'https://github.com/opscode-cookbooks/bluepill/issues' if respond_to?(:issues_url)
+source_url 'https://github.com/chef-cookbooks/bluepill' if respond_to?(:source_url)
+issues_url 'https://github.com/chef-cookbooks/bluepill/issues' if respond_to?(:issues_url)
