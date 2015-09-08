@@ -4,9 +4,6 @@ driver:
 provisioner:
   name: chef_zero
 
-driver_config:
-  require_chef_omnibus: true
-
 platforms:
   - name: centos-5.11
   - name: centos-6.7
