@@ -3,7 +3,7 @@ bluepill Cookbook CHANGELOG
 This file is used to list changes made in each version of the bluepill cookbook.
 
 
-v2.4.0 (09-17-2014)
+v2.4.0 (09-17-2015)
 ------
 - Updated the LSB Required-Start and Required-Stop comments of the LSB init script template to be valid
 - Added name to the bluepill_test cookbook metadata for Chef 12
