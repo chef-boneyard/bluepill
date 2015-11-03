@@ -9,7 +9,14 @@ Installs bluepill Ruby Gem and configures it to manage services. Also includes a
 
 Requirements
 ------------
+#### Platforms
 Bluepill is a pure Ruby service management tool/library, so this cookbook should work on any system. The attributes do set up paths based on FHS locations, see below.
+
+#### Chef
+- Chef 11+
+
+#### Cookbooks
+- none
 
 
 Attributes
@@ -76,6 +83,7 @@ License & Authors
 **Author:** Cookbook Engineering Team (<cookbooks@chef.io>)
 
 **Copyright:** 2010-2015, Chef Software, Inc.
+
 ```
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
