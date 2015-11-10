@@ -17,12 +17,12 @@
 # limitations under the License.
 #
 
-include_recipe 'rsyslog'
+include_recipe 'rsyslog::default'
 
 template '/etc/rsyslog.d/bluepill.conf' do
   owner 'root'
   group 'root'
   mode '0644'
   source 'bluepill_rsyslog.conf.erb'
-  notifies :restart, 'service[rsyslog]'
+  notifies :restart, "service[#{node['rsyslog']['service_name']}]"
 end
