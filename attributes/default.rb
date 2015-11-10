@@ -22,7 +22,7 @@ default['bluepill']['state_dir'] = '/var/lib/bluepill'
 default['bluepill']['group'] = 0
 default['bluepill']['use_rsyslog'] = false
 
-case platform
+case node['platform_family']
 when 'arch'
   default['bluepill']['init_dir'] = '/etc/rc.d'
   default['bluepill']['conf_dir'] = '/etc/bluepill'
@@ -36,9 +36,9 @@ else
   default['bluepill']['conf_dir'] = '/etc/bluepill'
 end
 
-case platform
+case node['platform_family']
 when 'fedora', 'rhel'
   default['bluepill']['defaults_dir'] = '/etc/sysconfig'
-when 'debian', 'ubuntu'
+when 'debian'
   default['bluepill']['defaults_dir'] = '/etc/default'
 end
