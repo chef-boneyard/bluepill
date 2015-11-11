@@ -2,6 +2,11 @@ bluepill Cookbook CHANGELOG
 ===========================
 This file is used to list changes made in each version of the bluepill cookbook.
 
+2.4.1 (11-10-2015)
+------
+- Require rsyslog ~> 2.0.0 to preserve Chef 11 compatibility
+- Fix rsyslog restarting on RHEL
+- Use platform_family when setting platform specific node attributes and fix bad syntax. This should improve RHEL support
 
 v2.4.0 (09-17-2015)
 ------
