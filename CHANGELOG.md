@@ -1,6 +1,10 @@
 # bluepill Cookbook CHANGELOG
 This file is used to list changes made in each version of the bluepill cookbook.
 
+## 2.4.2 (02-19-2016)
+- Loosened the dependecy on rsyslog so the latest cookbook can be used
+- Updated testing dependencies and configurations
+
 ## 2.4.1 (11-10-2015)
 - Require rsyslog ~> 2.0.0 to preserve Chef 11 compatibility
 - Fix rsyslog restarting on RHEL
