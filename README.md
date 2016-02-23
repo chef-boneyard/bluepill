@@ -8,7 +8,7 @@ Installs bluepill Ruby Gem and configures it to manage services. Also includes a
 Bluepill is a pure Ruby service management tool/library, so this cookbook should work on any system. The attributes do set up paths based on FHS locations, see below.
 
 ### Chef
-- Chef 11+
+- Chef 12+
 
 ### Cookbooks
 - none
