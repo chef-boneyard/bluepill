@@ -6,8 +6,8 @@ group :rake do
 end
 
 group :lint do
-  gem 'foodcritic', '~> 6.0'
-  gem 'rubocop', '~> 0.38'
+  gem 'foodcritic', '~> 7.0'
+  gem 'cookstyle'
 end
 
 group :unit do
