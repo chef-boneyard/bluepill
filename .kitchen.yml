@@ -26,6 +26,5 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[minitest-handler]
       - recipe[bluepill_test]
     attributes: {bluepill: { bin: "/opt/chef/embedded/bin/bluepill" } }
