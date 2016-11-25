@@ -1,9 +1,9 @@
 #
-# Cookbook Name:: bluepill
+# Cookbook:: bluepill
 # Provider:: service
 #
-# Copyright 2010-2016, Chef Software, Inc.
-# Copyright 2012, Heavy Water Operations, LLC
+# Copyright:: 2010-2016, Chef Software, Inc.
+# Copyright:: 2012-2016, Heavy Water Operations, LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
