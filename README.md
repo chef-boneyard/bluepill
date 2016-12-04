@@ -47,13 +47,9 @@ Be sure to include the bluepill recipe in the run list to ensure that the gem an
 
 If the default directory locations in the attributes/default.rb aren't what you want, change them by setting them either in the attributes file itself, or create attributes in a role applied to any systems that will use bluepill.
 
-Example pill template resource and .erb file:
+Bluepill uses configuration files named my_app.pill that are stored in `/etc/bluepill`.  Here is an example pill:
 
 ```ruby
-template '/etc/bluepill/my_app.pill' do
-  source 'my_app.pill.erb'
-end
-
 Bluepill.application('my_app') do |app|
   app.process('my_app') do |process|
     process.pid_file = '/var/run/my_app.pid'
@@ -61,8 +57,15 @@ Bluepill.application('my_app') do |app|
   end
 end
 ```
+You can create this file with `cookbook_file` as follows:
 
-See bluepill's documentation for more information on creating pill templates.
+```ruby
+cookbook_file '/etc/bluepill/my_app.pill' do
+  source 'my_app.pill'
+end
+```
+
+See bluepill's [documentation](https://github.com/bluepill-rb/bluepill#config) for more information on creating pill templates.
 
 ## Testing
 This cookbook has the following [ChefSpec custom matchers](https://github.com/sethvargo/chefspec#packaging-custom-matchers) defined:
@@ -109,3 +112,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
