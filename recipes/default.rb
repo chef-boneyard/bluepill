@@ -26,7 +26,7 @@ end
 [
   node['bluepill']['conf_dir'],
   node['bluepill']['pid_dir'],
-  node['bluepill']['state_dir']
+  node['bluepill']['state_dir'],
 ].each do |dir|
   directory dir do
     recursive true
