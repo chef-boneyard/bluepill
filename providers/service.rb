@@ -153,7 +153,7 @@ def determine_current_status!
 end
 
 def service_running?
-  if shell_out(status_command).exitstatus.zero?
+  if shell_out(status_command).exitstatus == 0
     @current_resource.running true
     Chef::Log.debug("#{new_resource} is running")
   end
