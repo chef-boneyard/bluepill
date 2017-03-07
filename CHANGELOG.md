@@ -2,6 +2,13 @@
 
 This file is used to list changes made in each version of the bluepill cookbook.
 
+## 4.0.0 (2017-03-06)
+
+- Test with local delivery and not Rake
+- Removed the unused / undocumented `supports` attribute from the bluepill_service resource
+- Convert bluepill_service to a custom resource, requiring chef-client 12.5 or laterA
+- Add Chef 13 testing
+
 ## 3.0.0 (2016-08-31)
 
 - This cookbook now requirements Chef 12
