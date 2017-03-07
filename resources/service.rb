@@ -137,8 +137,10 @@ action_class do
     if shell_out(status_command).exitstatus == 0
       Chef::Log.debug("#{new_resource.service_name} is running")
       return true
+    else
+      return false
     end
-  rescue Mixlib::ShellOut::ShellCommandFailed, SystemCallError
+  rescue SystemCallError
     false
   end
 
