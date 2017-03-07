@@ -11,4 +11,4 @@ depends 'rsyslog', '>= 2.0'
 
 source_url 'https://github.com/chef-cookbooks/bluepill'
 issues_url 'https://github.com/chef-cookbooks/bluepill/issues'
-chef_version '>= 12.1' if respond_to?(:chef_version)
+chef_version '>= 12.5' if respond_to?(:chef_version)
