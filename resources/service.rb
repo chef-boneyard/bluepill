@@ -138,6 +138,7 @@ action_class do
       Chef::Log.debug("#{new_resource.service_name} is running")
       return true
     else
+      Chef::Log.debug("#{new_resource.service_name} is not running")
       return false
     end
   rescue SystemCallError
