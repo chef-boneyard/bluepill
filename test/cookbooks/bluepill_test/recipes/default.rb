@@ -1,3 +1,5 @@
+apt_update 'update'
+
 include_recipe 'bluepill::default'
 
 # Boring
