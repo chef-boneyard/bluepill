@@ -20,10 +20,7 @@
 property :service_name, name_property: true
 property :variables, Hash
 
-require 'chef/mixin/shell_out'
 require 'chef/mixin/language'
-
-include Chef::Mixin::ShellOut
 
 action :start do
   unless service_running?
