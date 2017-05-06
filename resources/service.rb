@@ -109,7 +109,7 @@ action :restart do
   end
 end
 
-action_class.class_eval do
+action_class do
   def status_command
     "#{node['bluepill']['bin']} #{new_resource.service_name} status"
   end
