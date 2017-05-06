@@ -2,6 +2,12 @@
 
 This file is used to list changes made in each version of the bluepill cookbook.
 
+## 4.0.1 (2017-05-06)
+
+- Add supported platforms to the metadata
+- Remove extra include of mixlib-shell in the resource
+- Fix the license string to be a SPDX standard string
+
 ## 4.0.0 (2017-03-06)
 
 - Test with local delivery and not Rake
