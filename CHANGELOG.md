@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the bluepill cookbook.
 
+## 4.0.2 (2017-07-11)
+
+- Fixes a typo in LSB init which triggers an abort during deploy (#34)
+
 ## 4.0.1 (2017-05-06)
 
 - Add supported platforms to the metadata
