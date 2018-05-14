@@ -133,10 +133,10 @@ action_class do
   def service_running?
     if shell_out(status_command).exitstatus == 0
       Chef::Log.debug("#{new_resource.service_name} is running")
-      return true
+      true
     else
       Chef::Log.debug("#{new_resource.service_name} is not running")
-      return false
+      false
     end
   rescue SystemCallError
     false
