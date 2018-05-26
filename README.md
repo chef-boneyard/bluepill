@@ -70,34 +70,6 @@ end
 
 See bluepill's [documentation](https://github.com/bluepill-rb/bluepill#config) for more information on creating pill templates.
 
-## Testing
-
-This cookbook has the following [ChefSpec custom matchers](https://github.com/sethvargo/chefspec#packaging-custom-matchers) defined:
-
-- enable_bluepill_service
-- load_bluepill_service
-- reload_bluepill_service
-- start_bluepill_service
-- disable_bluepill_service
-- stop_bluepill_service
-- restart_bluepill_service
-
-### ChefSpec Examples:
-
-```
-it 'enables my_app bluepill service' do
-  chef_run.converge('my_app::default', described_recipe)
-  expect(chef_run).to enable_bluepill_service('my_app')
-end
-
-it 'reloads my_app bluepill service when pill file changes' do
-  chef_run.converge('my_app::default', described_recipe)
-  expect(chef_run).to create_template('/etc/bluepill/my_app.pill')
-  my_app_pill = chef_run.template('/etc/bluepill/my_app.pill')
-  expect(my_app_pill).to notify('bluepill_service[my_app]').to(:reload).delayed
-end
-```
-
 ## License & Authors
 
 **Author:** Cookbook Engineering Team ([cookbooks@chef.io](mailto:cookbooks@chef.io))
