@@ -2,6 +2,10 @@
 
 This file is used to list changes made in each version of the bluepill cookbook.
 
+## 4.1.1 (2018-10-03)
+
+- Removes a deprecated dependency 'chef/mixin/language'
+
 ## 4.1.0 (2018-05-14)
 
 - Update dokken config
